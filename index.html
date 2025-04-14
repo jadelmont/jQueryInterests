@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Interests</title>
+    <script src="jquery-3.7.1.js"></script>
+    <script src="interests.js"></script>
+
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative; /* Enables layering for the overlay */
+
+            /* Background Image */
+            background-image: url('assets/worldmap.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Overlay for softened background */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Light overlay with 60% opacity */
+            z-index: -1; /* Ensures it doesn’t block text */
+        }
+
+        /* Introductory Section */
+        .intro-container {
+            text-align: center;
+            padding: 20px;
+            margin: 30px auto 20px;
+            max-width: 800px;
+        }
+
+        .intro-container h1 {
+            font-size: 2.8em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .intro-container p {
+            font-size: 1.2em;
+            color: #2b2b2b;
+            line-height: 1.8;
+            margin: 0 auto;
+        }
+
+        /* Main Content Styling */
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 40px auto 20px;
+            gap: 20px;
+        }
+
+        .text-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p.admiration {
+            font-size: 1.2em;
+            color: #2b2b2b;
+            line-height: 1.8;
+        }
+
+        .overview-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: left;
+        }
+
+        .overview-section h2 {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .overview-section p {
+            font-size: 1.2em;
+            color: #2b2b2b;
+            line-height: 1.8;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .filter-section label {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-right: 10px;
+        }
+
+        .filter-section select {
+            padding: 5px 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Gallery Section */
+        #gallery {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 20px;
+            width: 100%;
+            padding: 10px;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: scale(1.03); /* Slight zoom effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+
+        .card img {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            border-bottom: 1px solid #ddd;
+            transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+        }
+
+        .card:hover img {
+            transform: scale(1.04); /* Slightly enlarge images on hover */
+        }
+
+        .card h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 0.9em;
+            color: #666;
+            padding: 0 10px 10px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Introductory Section -->
+    <div class="intro-container">
+        <h1>Historical Art</h1>
+        <p>
+            Explore the wonders of art that transcend time. This page is dedicated to showcasing historical masterpieces 
+            from various eras, each telling a unique story and preserving the legacy of human creativity.
+            Dive into the charm of these historical artifacts and let them spark your curiosity and imagination.
+        </p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <label for="filter">Filter Artworks by Type:</label>
+        <select id="filter">
+            <option value="all">All</option>
+            <option value="Sculpture">Sculpture</option>
+            <option value="Woodblock Print">Woodblock Print</option>
+            <option value="Decorative Interior Design">Decorative Interior Design</option>
+            <option value="Jewelry/Ornamental Art">Jewelry/Ornamental Art</option>
+        </select>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Text Section -->
+        <div class="text-section" id="text-section">
+            <h2>My Admiration for Historical Art</h2>
+            <p class="admiration">
+                There’s something magical about old, historical pieces of art. They tell stories that have survived the test of time, 
+                connecting us to the creativity, culture, and emotions of people from centuries past. Each artifact is a window into 
+                history—its charm lies in the mystery of its creation and the beauty of its craftsmanship. I admire these particular pieces for their 
+                ability to inspire wonder and curiosity, offering a glimpse into a time that once was.
+            </p>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="overview-section" id="overview-section" style="display: none;">
+            <h2 id="dynamic-title"></h2>
+            <p id="dynamic-description"></p>
+        </div>
+
+        <!-- Gallery Section -->
+        <div id="gallery"></div>
+    </div>
+</body>
+</html>
